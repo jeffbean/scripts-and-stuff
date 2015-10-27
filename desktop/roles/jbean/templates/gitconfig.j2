@@ -1,0 +1,58 @@
+[user]
+  name = Jeff Bean
+  email = jeff.bean@hds.com
+
+[url "https://"]
+  insteadOf = git://
+
+[core]
+  autocrlf = input
+
+[push]
+  default = upstream
+
+[alias]
+  undo=reset --hard
+  serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+  whois = "!sh -c 'git log -i -1 --pretty=\"format:%an <%ae>\n\" --author=\"$1\"' -"
+    whatis = show -s --pretty='tformat:%h (%s, %ad)' --date=short
+  st = status
+  ci = commit
+  br = branch -vv
+  co = checkout
+  df = diff
+  dc = diff --cached
+  lg = log -p
+  who = shortlog -s --
+  logg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+  ui = true
+  pager = true
+
+[color "status"]
+  added = green
+  changed = blue
+  untracked = magenta
+  deleted = red
+
+[color "branch"]
+  current = green black
+  local = blue
+  remote = magenta
+
+[url "https://github.com"]
+  insteadOf = git://github.com
+[url "https://github.com/"]
+  insteadOf = github:
+[url "https://bitbucket.org/"]
+  insteadOf = git@bitbucket.org:
+
+[http]
+        postBuffer = 157286400
+[credential]
+        helper = cache --timeout=3600

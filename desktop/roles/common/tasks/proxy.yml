@@ -1,0 +1,2 @@
+- name: Proxy | Create /etc/environment configuration file
+  template: src=environment.j2 dest=/etc/environment

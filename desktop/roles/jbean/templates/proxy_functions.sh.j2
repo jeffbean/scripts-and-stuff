@@ -1,0 +1,36 @@
+#!/bin/bash
+
+PROXY="{{ http_proxy }}"
+
+
+function jb_proxy_on {
+	http_proxy=${PROXY}
+	https_proxy=${PROXY}
+	export http_proxy
+	export https_proxy
+	echo -n "Enabled Proxy: ${PROXY}         "
+	print_ok
+}
+
+function jb_proxy_off {
+	unset http_proxy
+	unset https_proxy
+	echo -n "Disabled Proxy: \e[32m${PROXY}\e[00m        "
+	print_ok
+}
+
+function jb_proxy_check {
+	if [ -z $http_proxy ]; then
+                return 1
+        else
+		return 0
+        fi
+}	
+
+function jb_proxy_status {
+	if ! pxcheck; then
+		echo "There is no proxy currently set"
+	else
+		echo -e "Proxy set to \e[32m$http_proxy\e[00m"
+	fi
+}

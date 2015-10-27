@@ -1,0 +1,5 @@
+---
+- name: Reviewboard Tools | Installing RBtools
+  easy_install: name={{item}}
+  with_items:
+    - RBTools

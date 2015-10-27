@@ -1,0 +1,7 @@
+- name: VMwarePlayer | Download VMware Player {{vmwareplayer_version}}
+  get_url: dest=/tmp/vmwareplayer_{{vmwareplayer_version}}.bundle url=http://eng.panama.hcp.mcp.com/rest/tools/VMware-Player-{{vmwareplayer_version}}-1895310.x86_64.bundle
+  tags: vmwareplayer
+
+- name: VMwarePlayer | Install VMware Player {{vmwareplayer_version}}
+  command: bash /tmp/vmwareplayer_{{vmwareplayer_version}}.bundle --eulas-agreed --required
+  tags: vmwareplayer  

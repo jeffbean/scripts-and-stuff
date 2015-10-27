@@ -1,0 +1,24 @@
+#- name: DockerRegistry | Install nfs-client 
+#  apt: pkg=nfs-client state=latest
+#  tags: docker_registry
+
+#- name: DockerRegistry | Ensure mount directory ({{nfsmount}}) exists
+#  file: path={{nfsmount}} state=directory
+#  tags: docker_registry
+
+#- name: DockerRegistry | Mount HCP ({{remote_nfs_path}})
+#  mount: name={{nfsmount}} src={{remote_nfs_path}} fstype=nfs state=mounted
+#  tags: docker_registry
+
+- name: DockerRegistry | Copy config file to host
+  copy: src=docker_registry_config.yml dest=/opt/docker_registry_config.yml
+  tags: docker_registry
+
+- name: DockerRegistry | Copy hcp storage driver to host
+  copy: src=hcp.py dest=/opt/hcp.py
+  tags: docker_registry
+
+- name: DockerRegistry | Copy docker-registry install script
+  copy: src=rdocker_install.sh dest=/opt/rdocker_install.sh
+  tags: docker_registry
+  

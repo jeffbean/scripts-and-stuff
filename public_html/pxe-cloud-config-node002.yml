@@ -1,0 +1,44 @@
+#cloud-config
+coreos:
+  fleet:
+    # replace this IP
+    etcd_servers: "http://10.21.75.52:4001"
+  units:
+    - name: fleet.service
+      command: start
+    - name: docker.service
+      drop-ins:
+        - name: 50-insecure-registry.conf
+          content: |
+            [Service]
+            Environment=DOCKER_OPTS='--insecure-registry="rdocker.mcp.com:5000"'
+
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCy4OoLD0q5wNnMC6RMqErV7lWcIq/cv2QAyWuJi5inGc6vBcGiFmdS9E6C+ufS+8JT766dwUjwS31eDtqqGJi9OLwJifUeFJFw523jHfxHDwMtX+VWoUmvaLkKdLJS8KIKS0NE/FhmpQVqjXvYHBnkeQNFoUwVDhrMqRLxIT52xbXXc1iJ9P6fvR59KW7A4QDK3qHnvApqL1eSjGKTKZ+PrweR6T/BVRWkEZCXflVqdfnabLHwEA2a04gn3wX7/kxnDlwOaBfGc+gKyB6gojXc3bKzbJXNjZgULyeVt6lrh4AnzcnQqZoB6Yruo+GxbmtLolv8S67vrJWKXyhW+0nb
+
+hostname: coreos-worker-01.podf.local
+write_files:
+  - path: /etc/hosts
+    permissions: 0644
+    owner: root
+    content: |
+      10.21.224.55 rdocker.mcp.com 
+  - path: /etc/motd
+    permissions: 0644
+    owner: root
+    content: |
+      UCP CoreOS deployment. Lets all play around!
+  - path: /etc/profile.d/etcdctl.sh
+    permissions: 0644
+    owner: core
+    content: |
+      # configure etcdctl to work with our etcd servers set above
+      export ETCDCTL_PEERS="http://10.21.75.52:4001"
+  - path: /etc/profile.d/fleetctl.sh
+    permissions: 0644
+    owner: core
+    content: |
+      # configure fleetctl to work with our etcd servers set above
+      export FLEETCTL_ENDPOINT=/var/run/fleet.sock
+      export FLEETCTL_EXPERIMENTAL_API=true
+

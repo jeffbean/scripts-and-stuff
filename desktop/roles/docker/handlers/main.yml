@@ -1,0 +1,5 @@
+- name: restart server
+  command: /sbin/reboot
+
+- name: restart docker
+  action: service name=docker pattern=/etc/init.d/docker state=restarted enabled=yes  

@@ -1,0 +1,32 @@
+{
+  "id": "nginx-master-controller",
+  "kind": "ReplicationController",
+  "apiVersion": "v1beta1",
+  "desiredState": {
+    "replicas": 1,
+    "replicaSelector": {"name": "nginx-master"},
+    "podTemplate": {
+      "desiredState": {
+        "manifest": {
+          "version": "v1beta1",
+          "id": "nginx-master",
+          "containers": [{
+            "name": "nginx-master",
+            "image": "rdocker.mcp.com:5000/nginx",
+            "cpu": 100,
+            "ports": [{
+              "containerPort": 80,   
+            }]
+          }]
+        }
+      },
+      "labels": {
+        "name": "nginx-master",
+        "app": "nginx"
+      }
+    }
+  },
+  "labels": {
+    "name": "nginx-master" 
+  }
+}

@@ -1,0 +1,3 @@
+- name: OpenJDK7 | Install openjdk-7-jdk
+  apt: pkg=openjdk-7-jdk state=installed
+  tags: openjdk7

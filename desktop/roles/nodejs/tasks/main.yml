@@ -1,0 +1,20 @@
+- name: Node.js | Add nodejs (Mint 17)
+  apt_repository: repo="deb http://ppa.launchpad.net/chris-lea/node.js/ubuntu trusty main" update_cache=yes
+  when: ansible_distribution_release == 'qiana'
+  tags: nodejs
+
+- name: Node.js | Import nodejs key (Mint 17)
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x136221EE520DDFAF0A905689B9316A7BC7917B12 state=present
+  when: ansible_distribution_release == 'qiana'
+  tags: nodejs
+
+- name: Node.js | Add nodejs (Ubuntu 12.04)
+  apt_repository: repo='ppa:chris-lea/node.js'
+  when: ansible_distribution_release == 'precise'
+  tags: nodejs
+
+- name: Node.js | Install nodejs and npm
+  action: apt pkg={{ item }} state=installed update_cache=yes
+  with_items:
+    - nodejs
+  tags: nodejs

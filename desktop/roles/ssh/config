@@ -1,0 +1,24 @@
+# Use the following settings example to override 
+# the username for a specific host or hosts.
+
+Host odin osiris qa db1 builds pxe labman infprod vs odin-dev
+    User=jbean
+	ForwardAgent=yes
+	ForwardX11=yes
+	CheckHostIP=no
+	StrictHostKeyChecking=no
+
+Host hcpftp.hds.com
+    User=jbean
+    IdentitiesOnly yes 
+
+Host *
+    Compression=yes
+    CompressionLevel=9
+    ForwardAgent=yes
+    ForwardX11=yes
+    ServerAliveInterval=60
+    StrictHostKeyChecking=no
+    CheckHostIP=no
+    User=root
+

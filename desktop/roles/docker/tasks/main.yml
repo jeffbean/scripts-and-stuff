@@ -1,0 +1,48 @@
+---
+- name: Docker | Install linux-image-generic-lts-raring kernel (Ubuntu 12.04)
+  action: apt pkg={{ item }} state=installed
+  with_items:  
+    - linux-image-generic-lts-raring
+    - linux-headers-generic-lts-raring
+  notify:
+    - restart server  
+  when: ansible_distribution_release == 'precise'
+  tags: docker
+
+- name: Docker | Install docker dependencies
+  action: apt pkg={{ item }} state=installed
+  with_items:
+    - apt-transport-https
+    - python-software-properties
+    - python-apt
+    - python-pycurl
+    - wget
+    - lxc
+  tags: docker
+
+- name: Docker | Add docker repository key
+  apt_key: url="https://get.docker.com/gpg" state=present
+  environment: proxy_env
+  tags: docker
+
+- name: Docker | Add docker repository
+  apt_repository: repo="deb http://get.docker.com/ubuntu docker main" state=present
+  tags: docker
+
+- name: Docker | Install apparmor 
+  apt: pkg=apparmor state=latest update_cache=yes
+  tags: docker
+
+- name: Docker | Install docker 
+  apt: pkg=lxc-docker state=latest update_cache=yes
+  tags: docker
+
+- name: Docker | Add {{ ansible_ssh_user }} to docker group
+  user: name={{ ansible_ssh_user }} groups=docker append=yes
+  tags: docker
+
+- name: Docker | Add default configuration file
+  template: src=default_docker.j2 dest=/etc/default/docker
+  notify:
+    - restart docker
+  tags: docker

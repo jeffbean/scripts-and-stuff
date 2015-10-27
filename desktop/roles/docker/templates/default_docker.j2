@@ -1,0 +1,3 @@
+DOCKER_OPTS="--dns {{dns_server1}} --insecure-registry {{ local_docker_registry }} -H tcp://127.0.0.1:2375 -H unix:///var/run/docker.sock"
+export http_proxy=http://{{proxy}}
+export https_proxy=http://{{proxy}}

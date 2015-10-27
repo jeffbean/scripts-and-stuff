@@ -1,0 +1,20 @@
+#cloud-config
+coreos:
+  etcd:
+    name: node001
+    addr: 10.21.75.73:4001
+  units:
+    - name: etcd.service
+      command: start
+
+ssh_authorized_keys:
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCy4OoLD0q5wNnMC6RMqErV7lWcIq/cv2QAyWuJi5inGc6vBcGiFmdS9E6C+ufS+8JT766dwUjwS31eDtqqGJi9OLwJifUeFJFw523jHfxHDwMtX+VWoUmvaLkKdLJS8KIKS0NE/FhmpQVqjXvYHBnkeQNFoUwVDhrMqRLxIT52xbXXc1iJ9P6fvR59KW7A4QDK3qHnvApqL1eSjGKTKZ+PrweR6T/BVRWkEZCXflVqdfnabLHwEA2a04gn3wX7/kxnDlwOaBfGc+gKyB6gojXc3bKzbJXNjZgULyeVt6lrh4AnzcnQqZoB6Yruo+GxbmtLolv8S67vrJWKXyhW+0nb
+
+hostname: coreos-master-01.podf.local
+write_files:
+  - path: /etc/motd
+    permissions: 0644
+    owner: root
+    content: |
+      MASTER!! UCP CoreOS deployment. Lets all play around!
+

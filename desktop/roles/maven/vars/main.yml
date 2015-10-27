@@ -1,0 +1,2 @@
+maven_version: 3.2.1
+maven_url: "http://eng.panama.hcp.mcp.com/rest/tools/apache-maven-{{ maven_version }}-bin.tar.gz"

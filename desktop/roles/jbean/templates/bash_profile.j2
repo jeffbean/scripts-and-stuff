@@ -1,0 +1,123 @@
+# .bash_profile
+#########
+# Controlled by Ansible!!! do not edit!
+#########
+
+# Get the aliases and functions
+if [ -f ~/.bashrc ]; then
+	. ~/.bashrc
+fi
+
+# User specific environment and startup programs
+
+PATH=$PATH:$HOME/.local/bin
+
+PATH=$PATH:$HOME/programs/packer
+
+export GOROOT=$HOME/.local/go
+PATH=$PATH:$GOROOT/bin
+export GOPATH=$HOME/go
+
+PATH=$PATH:$GOPATH/bin
+
+export EDITOR=vim
+
+export PYCHARM_JDK=
+#export SVN_MERGE=meld
+export PDIFF_DIFFTOOL=meld
+export PDIFF_EDITOR=meld
+
+
+alias r='cd && clear'
+
+
+# User specific aliases and functions
+
+export PATH
+
+
+#########
+# Controlled by Ansible!!! do not edit!
+#########
+
+PROXY="{{ http_proxy }}"
+
+export no_proxy="localhost,127.0.0.0/8,::1,/var/run/docker.sock"
+export NO_PROXY=$no_proxy
+
+function print_ok
+{
+        echo -e '[   \e[32mOK\e[00m   ]'
+}
+
+function print_failed
+{
+        echo -e '[ \e[31mFAILED\e[00m ]'
+}
+
+function prompt_ask() {
+    while true; do
+        if [ "${2:-}" = "Y" ]; then
+            prompt="Y/n"
+            default=Y
+        elif [ "${2:-}" = "N" ]; then
+            prompt="y/N"
+            default=N
+        else
+            prompt="y/n"
+            default=
+        fi
+        # Ask the question
+        read -p "$1 [$prompt] " REPLY
+        # Default?
+        if [ -z "$REPLY" ]; then
+            REPLY=$default
+        fi
+        # Check if the reply is valid
+        case "$REPLY" in
+            Y*|y*) return 0 ;;
+            N*|n*) return 1 ;;
+        esac
+    done
+}
+function jb_docker_destory {
+    if prompt_ask "Are you sure you want to stop and remove all containers?"; then
+        docker stop $(docker ps -a -q)
+        docker rm $(docker ps -a -q)
+    else
+        echo "OK you might have just saved yourself."
+    fi
+}
+
+
+function jb_proxy_on {
+    http_proxy=${PROXY}
+    https_proxy=${PROXY}
+    export http_proxy
+    export https_proxy
+    echo -n "Enabled Proxy: ${PROXY}         "
+    print_ok
+}
+
+function jb_proxy_off {
+    unset http_proxy
+    unset https_proxy
+    echo -n "Disabled Proxy: \e[32m${PROXY}\e[00m        "
+    print_ok
+}
+
+function jb_proxy_check {
+    if [ -z $http_proxy ]; then
+                return 1
+        else
+        return 0
+        fi
+}   
+
+function jb_proxy_status {
+    if ! pxcheck; then
+        echo "There is no proxy currently set"
+    else
+        echo -e "Proxy set to \e[32m$http_proxy\e[00m"
+    fi
+}

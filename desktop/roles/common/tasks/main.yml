@@ -1,0 +1,29 @@
+---
+- include: proxy.yml tags=proxy
+
+- name: Common | Upgrade all safe packages
+  apt: upgrade=safe
+
+- name: Common | Install unattend upgrades
+  apt: name=unattended-upgrades state=present
+
+- name: Common | Install auto-update config
+  copy: src=20auto-upgrades dest=/etc/apt/apt.conf.d/20auto-upgrades owner=root group=root mode=0644
+
+- name: Common | Install common packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - sudo
+    - aptitude
+    - vim
+    - git
+    - screen
+    - build-essential
+    - unzip
+    - wget
+    - python-pycurl
+    - curl
+    - gcc-multilib
+    - ruby
+
+- include: ntp.yml tags=ntp

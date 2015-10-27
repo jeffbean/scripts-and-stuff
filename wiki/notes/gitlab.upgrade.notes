@@ -1,0 +1,21 @@
+sudo apt-get update
+sudo apt-get upgrade
+
+sudo apt-get install update-manager-core
+
+
+sudo apt-get install libc6 
+sudo apt-get install openssh-server
+sudo apt-get install postfix
+
+wget https://downloads-packages.s3.amazonaws.com/ubuntu-14.04/gitlab_7.9.0-omnibus.2-1_amd64.deb
+
+
+
+
+su git
+bundle exec rake gitlab:backup:create RAILS_ENV=production 
+
+
+sudo dpkg -i gitlab_7.9.0-omnibus.2-1_amd64.deb
+sudo gitlab-ctl reconfigure

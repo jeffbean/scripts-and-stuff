@@ -1,0 +1,1 @@
+git_directory: "{{ ansible_env.HOME }}/git/"

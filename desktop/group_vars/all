@@ -1,0 +1,16 @@
+proxy_host: rproxy.mcp.com
+proxy_port: 3128
+proxy: "{{ proxy_host }}:{{ proxy_port }}"
+http_proxy: "http://{{ proxy }}"
+no_proxy: "localhost,127.0.0.0/8,::1,/var/run/docker.sock"
+dns_server1: 10.21.223.53
+ntp_server_1: 10.21.223.250
+ntp_server_2: 10.21.223.251
+ntp_server_3: 10.21.223.252
+
+proxy_env:
+  http_proxy: http://{{ proxy_host }}:{{  proxy_port }}
+  https_proxy: http://{{ proxy_host }}:{{  proxy_port }}
+
+local_home: "{{ lookup('env','HOME') }}"
+programs_directory: "/opt"

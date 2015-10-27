@@ -1,0 +1,2 @@
+packer_version: 0.7.2
+packer_url: https://dl.bintray.com/mitchellh/packer/packer_{{packer_version}}_linux_amd64.zip

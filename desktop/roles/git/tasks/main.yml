@@ -1,0 +1,23 @@
+- name: Git | Install Git PPA repository (Mint 17)
+  apt_repository: repo="deb http://ppa.launchpad.net/git-core/ppa/ubuntu trusty main" update_cache=yes
+  when: ansible_distribution_release == 'qiana'
+  tags: git
+
+- name: Git | Import git PPA key (Mint 17)
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0xE1DD270288B4E6030699E45FA1715D88E1DF1F24 state=present
+  when: ansible_distribution_release == 'qiana'
+  environment: proxy_env
+  tags: git  
+
+- name: Git | Install Git PPA repository (Ubuntu 12.04)
+  apt_repository: repo='ppa:git-core/ppa'
+  when: ansible_distribution_release == 'precise'
+  tags: git
+
+- name: Git | Install Git
+  apt: pkg=git state=latest update_cache=yes
+  tags: git
+
+- name: Git | Create git directory
+  file: path="{{git_directory}}" state=directory
+  tags: git

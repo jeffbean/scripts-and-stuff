@@ -1,0 +1,10 @@
+- name: NTP | Install ntp packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - ntp
+    - ntpdate
+
+- name: NTP | Create ntp.conf configuration file
+  template: src=ntp.conf.j2 dest=/etc/ntp.conf
+  notify:
+    - restart ntp

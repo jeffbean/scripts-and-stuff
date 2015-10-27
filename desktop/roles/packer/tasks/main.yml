@@ -1,0 +1,15 @@
+- name: Packer | Create directory for packer
+  file: path=/opt/packer state=directory
+  tags: packer
+
+- name: Packer | Download packer {{ packer_version }}
+  get_url: dest=/opt/packer_{{ packer_version }}.zip url={{ packer_url }}
+  tags: packer
+
+- name: Packer | Unzip packer
+  action: command creates=/opt/packer/packer chdir=/opt unzip /opt/packer_{{ packer_version }}.zip -d /opt/packer
+  tags: packer
+
+- name: Packer | Create symlink for packer
+  file: path=/usr/local/bin/packer src=/opt/packer/packer state=link
+  tags: packer

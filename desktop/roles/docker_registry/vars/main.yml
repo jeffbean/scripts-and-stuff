@@ -1,0 +1,2 @@
+nfsmount: /mnt/hcp
+remote_nfs_path: nfs.hcp.mcp.com:/fs/Panama/docker/data/

@@ -1,0 +1,19 @@
+- name: Maven | Make sure /opt directory exists
+  file: path=/opt state=directory
+  tags: maven
+
+- name: Maven | Download Maven
+  get_url: dest=/opt/maven-{{ maven_version }}.tar.gz url={{ maven_url }}
+  tags: maven
+
+- name: Maven | Unpack Maven
+  action: command creates=/opt/maven chdir=/opt tar zxvf /opt/maven-{{ maven_version }}.tar.gz
+  tags: maven
+
+- name: Maven | Create Maven directory link
+  file: path=/opt/maven src=/opt/apache-maven-{{ maven_version }} state=link
+  tags: maven
+
+- name: Maven | Set mvn link
+  action: command update-alternatives --install /usr/bin/mvn mvn /opt/maven/bin/mvn 1
+  tags: maven

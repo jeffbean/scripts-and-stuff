@@ -1,0 +1,7 @@
+- name: VMwareVIX | Download VMware VIX {{vmwarevix_version}}
+  get_url: dest=/tmp/vmwarevix_{{vmwarevix_version}}.bundle url=http://eng.panama.hcp.mcp.com/rest/tools/VMware-VIX-{{vmwarevix_version}}-1295980.x86_64.bundle
+  tags: vmwarevix
+
+- name: VMwareVIX | Install VMware VIX {{vmwareplayer_version}}
+  command: bash /tmp/vmwarevix_{{vmwarevix_version}}.bundle --required
+  tags: vmwarevix  

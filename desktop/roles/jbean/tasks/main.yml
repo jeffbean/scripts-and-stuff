@@ -1,0 +1,95 @@
+---
+- name: Install bash_profile
+  template: src=bash_profile.j2 dest={{ ansible_env.HOME }}/.bash_profile owner=jbean group=jbean mode=0644
+  tags: bash
+
+- name: Install bashrc
+  template: src=bashrc.j2 dest={{ ansible_env.HOME }}/.bashrc owner=jbean group=jbean mode=0644
+  tags: bash
+
+- name: Create local bin directory
+  file: path={{ ansible_env.HOME }}/.local/bin owner=jbean group=jbean mode=0644 state=directory
+  tags: bash
+
+- name: Install inputrc
+  template: src=inputrc.j2 dest={{ ansible_env.HOME }}/.inputrc owner=jbean group=jbean mode=0644
+  tags: 
+    - bash
+    - environment
+
+- name: Install vimrc 
+  template: src=vimrc.j2 dest={{ ansible_env.HOME }}/.vimrc owner=jbean group=root mode=0755
+  tags: 
+    - environment
+    - vim
+
+- name: Install git prompt from github
+  get_url:  url=https://raw.githubusercontent.com/git/git/master/contrib/completion/git-prompt.sh dest={{ ansible_env.HOME }}/.git-prompt.sh mode=0644
+  tags:
+    - bash
+    - git
+
+- name: Install gitconfig
+  template: src=gitconfig.j2 dest={{ ansible_env.HOME }}/.gitconfig owner=jbean group=jbean mode=0644
+  tags:
+    - bash
+    - git
+
+- name: Install TMUX
+  apt: pkg=tmux state=installed
+  tags:
+    - bash
+    - tmux
+
+- name: Install Tmux custom configuration
+  template: src=tmux.conf.j2 dest={{ ansible_env.HOME }}/.tmux.conf mode=644
+  tags:
+    - bash
+    - tmux
+
+- name: Install cron-apt for auto updates
+  apt: pkg=cron-apt state=installed
+  tags:
+    - environment
+
+- name: Install cron-apt to daily cronjob
+  file: src=/usr/sbin/cron-apt dest=/etc/cron.daily/cron-apt owner=root group=root state=link
+  tags:
+    - environment
+
+- name: Install cron-apt security auto update custom action
+  template: src=5-security.j2 dest=/etc/cron-apt/action.d/5-security owner=root group=root mode=644
+  tags:
+    - bash
+    - environment
+
+- name: Install cron-apt security auto update custom configuration
+  template: src=5-security.conf.j2 dest=/etc/cron-apt/config.d/5-security owner=root group=root mode=644
+  tags:
+    - bash
+    - environment
+
+- name: Install Samba 
+  apt: pkg={{ item }} state=latest
+  with_items: ['samba-common', 'samba']
+  tags: samba
+
+- name: Create root Samba directories
+  file: path={{ item }} state=directory owner=root group=root mode=0751
+  with_items: [ '{{ samba_path }}', '{{ samba_homes_path }}', '{{ samba_shares_path }}', '{{ samba_shares_path }}/public' ]
+  tags: samba 
+
+- name: Configure Samba server
+  template: src=smb.conf.j2 dest=/etc/samba/smb.conf owner=root group=root mode=0644
+  notify: Reload samba
+  tags: samba 
+
+- name: Load iptables NetBIOS helper kernel module
+  modprobe: name=nf_conntrack_netbios_ns state=present
+  when: samba_iptables is defined and samba_iptables
+  tags: samba
+
+- name: Add iptables NetBIOS helper module to /etc/modules
+  lineinfile: dest=/etc/modules regexp='^nf_conntrack_netbios_ns' state=present line='nf_conntrack_netbios_ns'
+  when: samba_iptables is defined and samba_iptables
+  tags: samba

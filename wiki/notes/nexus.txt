@@ -1,0 +1,3 @@
+
+select * from suite_results where rundate > now() - interval '1 day';
+update suite_results set scoreit = true where rundate > now() - interval '1 day';

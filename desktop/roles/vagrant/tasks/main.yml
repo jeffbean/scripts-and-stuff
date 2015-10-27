@@ -1,0 +1,7 @@
+- name: Vagrant | Download Vagrant version {{vagrant_version}}
+  get_url: dest=/tmp/{{ vagrant_download_file }} url={{ vagrant_download_url }}
+  tags: vagrant
+
+- name: Vagrant | Install Vagrant
+  action: command dpkg -i /tmp/{{ vagrant_download_file }}
+  tags: vagrant

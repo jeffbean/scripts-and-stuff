@@ -1,0 +1,36 @@
+- hosts: all
+  gather_facts: false
+
+  vars_prompt:
+    - name: "vcenter_hostname"
+      prompt: "Enter vcenter hostname"
+      private: no
+      default: "10.21.67.241"
+      #"mcp-vcenter-01"
+    - name: "vcenter_user"
+      prompt: "Enter vcenter username"
+      default: "Administrator"
+      private: no
+    - name: "vcenter_pass"
+      prompt: "Enter vcenter password"
+      default: "password"
+      private: yes
+  vars:
+    datacenter: 'UCP Compute'
+    notes: 'Created by Ansible'
+
+  tasks:
+    - vsphere_guest:
+        vcenter_hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_pass }}"
+        guest: "{{ inventory_hostname }}"
+        from_template: yes
+        template_src: "centos7Template"
+        cluster: "Kubernetes"
+        resource_pool: "/Resources"
+        esxi:
+          datacenter: "{{ datacenter }}"
+      delegate_to: 127.0.0.1
+
+  roles:

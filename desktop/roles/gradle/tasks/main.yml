@@ -1,0 +1,28 @@
+- name: Gradle | Install gradle PPA repository (Mint 17)
+  apt_repository: repo="deb http://ppa.launchpad.net/cwchien/gradle/ubuntu trusty main" update_cache=yes
+  when: ansible_distribution_release == 'qiana'
+  tags: gradle
+
+- name: Gradle | Import gradle PPA key (Mint 17)
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x3D16156328D0E3056D885D0BD7CC6F019D06AF36 state=present
+  when: ansible_distribution_release == 'qiana'
+  tags: gradle
+
+- name: Gradle | Install gradle PPA repository (Mint 16)
+  apt_repository: repo="deb http://ppa.launchpad.net/cwchien/gradle/ubuntu saucy main" update_cache=yes
+  when: ansible_distribution_release == 'petra'
+  tags: gradle
+
+- name: Gradle | Import gradle PPA key (Mint 16)
+  apt_key: url=http://keyserver.ubuntu.com/pks/lookup?op=get&fingerprint=on&search=0x3D16156328D0E3056D885D0BD7CC6F019D06AF36 state=present
+  when: ansible_distribution_release == 'petra'
+  tags: gradle  
+
+- name: Gradle | Install gradle PPA repository (Ubuntu 12.04)
+  apt_repository: repo='ppa:cwchien/gradle'
+  when: ansible_distribution_release == 'precise'
+  tags: gradle
+
+- name: Gradle | Install gradle
+  apt: pkg=gradle state=latest update_cache=yes
+  tags: gradle

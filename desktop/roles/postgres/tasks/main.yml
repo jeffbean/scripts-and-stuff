@@ -1,0 +1,3 @@
+---
+- include: install_postgres.yml tags=postgres
+#- include: config_postgres.yml db_name=tts db_user=tts db_password=start123 tags=postgres

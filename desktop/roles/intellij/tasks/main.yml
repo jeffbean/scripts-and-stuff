@@ -1,0 +1,19 @@
+- name: IntelliJ | Make sure /opt directory exists
+  file: path=/opt state=directory
+  tags: intellij
+
+- name: IntelliJ | Download intellij
+  get_url: dest=/opt/idea-{{ intellij_text_version }}.tar.bz2 url={{ intellij_text_url }}
+  tags: intellij
+
+- name: IntelliJ | Unpack intellij text editor
+  action: command creates=/opt/{{ intellij_extracted_dir_name }}/ chdir=/opt tar xvf /opt/idea-{{ intellij_text_version }}.tar.bz2
+  tags: intellij
+
+- name: IntelliJ | Set idea command line link
+  action: file src=/opt/{{ intellij_extracted_dir_name }}/bin/idea.sh dest=/usr/bin/idea state=link
+  tags: intellij
+
+- name: IntelliJ | Create menu item for Intellij text editor
+  template: src=intellij.desktop.j2 dest=/usr/share/applications/intellij.desktop
+  tags: intellij

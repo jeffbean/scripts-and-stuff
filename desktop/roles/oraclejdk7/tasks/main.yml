@@ -1,0 +1,20 @@
+- name: OracleJDK7 | Add webupd8 repo apt-key
+  apt_key: url=http://keyserver.ubuntu.com:11371/pks/lookup?op=get&search=0xC2518248EEA14886 state=present
+  tags: oraclejdk7
+
+- name: OracleJDK7 | Add webupd8 repository
+  apt_repository: repo='deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' state=present
+  tags: oraclejdk7
+
+- name: OracleJDK7 | Add webupd8 repository (src)
+  apt_repository: repo='deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main' state=present
+  tags: oraclejdk7
+
+- name: OracleJDK7 | Accept Oracle license
+  debconf: name="{{oracle_installer_key}}" question='shared/{{oracle_license_key}}' value='true' vtype='select'
+  tags: oraclejdk7
+
+- name: OracleJDK7 | Install packages
+  apt: name={{item}} state=present update_cache=yes
+  with_items: oracle_packages  
+  tags: oraclejdk7

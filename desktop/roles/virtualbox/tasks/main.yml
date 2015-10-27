@@ -1,0 +1,27 @@
+- name: Virtualbox | Install Virtualbox Repo (Mint 17)
+  apt_repository: repo="deb http://download.virtualbox.org/virtualbox/debian trusty contrib" update_cache=yes
+  when: ansible_distribution_release == 'qiana'
+  tags: virtualbox
+
+- name: Virtualbox | Install Virtualbox Repo (Mint 16)
+  apt_repository: repo="deb http://download.virtualbox.org/virtualbox/debian saucy contrib" update_cache=yes
+  when: ansible_distribution_release == 'petra'
+  tags: virtualbox  
+
+- name: Virtualbox | Install Virtualbox Repo (Ubuntu 14.04)
+  apt_repository: repo="deb http://download.virtualbox.org/virtualbox/debian trusty contrib" update_cache=yes
+  when: ansible_distribution_release == 'trusty'
+  tags: virtualbox
+
+- name: Virtualbox | Install Virtualbox Repo (Ubuntu 12.04)
+  apt_repository: repo="deb http://download.virtualbox.org/virtualbox/debian precise contrib" update_cache=yes
+  when: ansible_distribution_release == 'precise'
+  tags: virtualbox  
+
+- name: Virtualbox | Install Virtualbox apt key
+  apt_key: url=http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc state=present
+  tags: virtualbox
+
+- name: Virtualbox | Install Virtualbox {{virtualbox_version}}
+  apt: pkg=virtualbox-{{virtualbox_version}}
+  tags: virtualbox

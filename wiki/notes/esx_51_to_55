@@ -1,0 +1,116 @@
+PODJ
+
+shutdown servers
+1. before55upgrade
+
+snapshot everything
+
+power on servers.
+
+SQL
+AD
+Utility
+service vm
+
+vcenter
+hcs
+htnm
+vcac
+WDS
+WSUS
+
+UCP Mgmnt
+
+
+Verified that ucp was running before moving on. 
+
+- upgrade single sign-on: 15 mins
+no issues.
+
+- upgrade web client: 3 mins
+no issues
+
+- upgrade inventory service: 10 mins
+no issues
+
+- Update vCenter Server image shows the inventory service still.. 20 mins
+no issues. besides the picture.
+
+- At the prompt for specifying the user account to run the serve as it blanks out the account name and i could not change it from Administrator to svc_vcntr
+
+- VSphere client
+no issues
+
+
+Here we need to ad the svc_vcntr Account back into VCenter User center. 
+
+Login with ucpadmin acocunt into vcenter. 
+GOTO vcenter permissions tab.
+Right click in the tab, click Add Permission..
+On the Users and Groups click the add butotn
+In this new window select PODJ domain
+select svc_vcntr and click add
+Click ok 
+For assigned Roles change the role to Administrator.
+Once fininshed we are good to move on with the rest of the upgrade.
+
+- update manager:
+    select 10G interface (how am i suppose to know what that one is if i dont know or dont rememeber.)
+    Need to install this as a plugin remoting into vcenter of the pod, connecting with vspere client and installing the plugin.
+
+
+- Dump Collector:
+no issues
+
+- Auto deploy:
+    when doing the back of deploy rules:
+        running the cmd to connect to vcneter, what account do i use?
+       
+       
+Can not login as svc_vcntr account after upgrade stock
+        
+        
+        
+Upgrading the hosts:
+    no part about Resource pool to select. (operations manager)
+    The bios boot overide option does not say SATA. it said Hitachi Remote CD
+    
+    Need to remove the iso on the reboot. It booted into the CD again.
+    missing part about when i do finish the host upgrade when and how to take it out of maintinece mode.
+    missing what to do when hosts are done and i have not migrated any hosts around. 
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+Updating Compute Hosts
+
+adding new 55 images to the UCP image repo
+use imaged from service vm B:\InstallMedia\Hitachi\HitachiESXiImages\5.5
+paste into D:\Repository
+
+replace the files
+go into ucp and refresh inventory and check if the new images are now 5.5 images
+
+deploy on all compute blades
+
+
+
+Add \\10.21.84.240\UCPAppliance\InstallMedia\Hitachi\HitachiESXiImages\5.5\
+to repos
+
+Updating the filenames for the 5.5 image zips casues issues when trying to update the active images.
+We get an error due to the metadata of the 5.5 images are the same as the 5.1 images. 
+
+When trying to update all of the basic metadata to try and cercomvent this it is still an issue.
+
+

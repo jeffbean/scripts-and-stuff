@@ -1,0 +1,9 @@
+---
+- name: Python | Installing python tools
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - python
+    - python-pip
+    - python-setuptools
+    - python-dev
+  tags: python

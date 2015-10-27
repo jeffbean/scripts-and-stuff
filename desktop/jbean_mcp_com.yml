@@ -1,0 +1,22 @@
+---
+# This is devbox setup playbook
+
+- hosts: 127.0.0.1
+  sudo: True
+  sudo_user: jbean
+  connection: local
+
+  roles:
+    - common
+    - jbean
+    - git
+    - docker
+    - gradle
+    - openjdk7
+    - oraclejdk7
+    - python
+    - packer
+    - rbtools
+    - virtualbox
+    - vmwareplayer
+    - postgres

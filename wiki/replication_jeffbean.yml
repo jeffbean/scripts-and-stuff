@@ -1,0 +1,23 @@
+id: "webserver-controller"
+kind: "ReplicationController"
+apiVersion: "v1beta1"
+desiredState:
+  replicas: 1
+  replicaSelector:
+    selectorname: "webserver"
+  podTemplate:
+    desiredState:
+      manifest:
+        version: "v1beta1"
+        id: "webserver-controller"
+        containers:
+          - name: "nginx-frontend"
+            image: "rdocker.mcp.com:5000/nginx"
+            ports:
+              - containerPort: 80
+                hostPort: 80
+    labels:
+      name: "webserver"
+      selectorname: "webserver"
+  labels:
+    name: "webserver"
